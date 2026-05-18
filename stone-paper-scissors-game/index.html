@@ -3,19 +3,52 @@
 
 <head>
     <title>Stone Paper Scissors</title>
+    <style>
+        body{
+            background-color: black;
+        }
+        h1{
+            color: white;
+            font-size: 40px;
+            font-family: Arial, sans-serif;
+        }
+            p{
+                color: white;
+                font-size: 20px;
+                font-family: Arial, sans-serif;
+            }
+            button{
+                background-color: white;
+                color: black;
+                font-size: 20px;
+                margin: 10px;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-family: Arial, sans-serif;
+            }
+            button:hover{
+                background-color: lightgray;
+            }
+    </style>
 </head>
 
 <body>
     <h1>Stone Paper Scissors</h1>
     <p>Welcome to the game!</p>
-    <p>Choose your move:</p>
+    <p>Choose your move: </p>
     <button onclick="playGame('Stone')">Stone</button>
     <button onclick="playGame('Paper')">Paper</button>
     <button onclick="playGame('Scissors')">Scissors</button>
+    <p class="js-result"></p>
+    <p class="js-moves"></p>
+    <p class="js-score"></p>
     <button onclick="
         score.wins=0;
         score.losses=0;
         score.tie=0;
+        updateScore();
     ">Reset Score</button>
     <script>
         const score = JSON.parse(localStorage.getItem('score')) || {
@@ -23,7 +56,7 @@
             losses: 0,
             tie: 0
         };
-
+          
         function playGame(PlayerMove) {
             const computerMove = pickComputerMove();
             let result;
@@ -46,12 +79,15 @@
             }
 
             localStorage.setItem('score', JSON.stringify(score));
-            
-            alert(`You chose ${PlayerMove}, Computer chose ${computerMove}. ${result}
-Wins: ${score.wins} Losses: ${score.losses} Tie: ${score.tie}`
-            );
+            document.querySelector('.js-result').innerHTML = result;
+            document.querySelector('.js-moves').innerHTML =
+            `You ${PlayerMove}, Computer ${computerMove}`;
+          updateScore();
+           updateScore();
         }
-        alert(`You chose ${PlayerMove}, Computer chose ${computerMove}. ${result}`);
+        
+
+            
         function pickComputerMove() {
             const randomNumber = Math.random();
             if (randomNumber >= 0 && randomNumber < 0.33) {
@@ -62,6 +98,10 @@ Wins: ${score.wins} Losses: ${score.losses} Tie: ${score.tie}`
                 return 'Scissors';
             }
         }
+        function updateScore(){
+             document.querySelector('.js-score').innerHTML = `Wins: ${score.wins} Losses: ${score.losses} Tie: ${score.tie}`;
+        }
+      
     </script>
 </body>
 
